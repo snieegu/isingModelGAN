@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from isingDataset import IsingDataset
 from tempfile import TemporaryFile
 
-ising_data = np.load('ising/cfg_x016_b0100.npy')
+ising_data = np.load('ising/s_cfg_x016_b0100.npy')
 ising_data = ising_data.astype(np.float32)
 ising_data_ready = torch.Tensor(ising_data).unsqueeze(0)
 print("sample ising data", ising_data[0])
@@ -22,7 +22,7 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 1
+epochs = 2
 batch_size = 100
 latent_dim = 16
 lr = 0.0001
@@ -49,17 +49,26 @@ class Generator(nn.Module):
         self.latent_dim = latent_dim
         self.main = nn.Sequential(
 
-            nn.ConvTranspose1d(in_channels=1, out_channels=128, kernel_size=3, padding=1),
+            nn.ConvTranspose1d(in_channels=1, out_channels=64, kernel_size=8),
+            nn.BatchNorm1d(64),
             # nn.ReLU(),
 
-            nn.ConvTranspose1d(in_channels=128, out_channels=256, kernel_size=3, padding=1),
+            nn.ConvTranspose1d(in_channels=64, out_channels=128, kernel_size=4, stride=3, padding=1),
+            nn.BatchNorm1d(128),
             # nn.ReLU(),
 
-            nn.ConvTranspose1d(in_channels=256, out_channels=64, kernel_size=3, padding=1),
+            nn.ConvTranspose1d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=2),
+            nn.BatchNorm1d(128),
             # nn.ReLU(),
 
-            nn.ConvTranspose1d(in_channels=64, out_channels=1, kernel_size=3, padding=1),
+            nn.ConvTranspose1d(in_channels=128, out_channels=64, kernel_size=2, padding=2),
+            nn.BatchNorm1d(64),
             # nn.ReLU(),
+
+            nn.ConvTranspose1d(in_channels=64, out_channels=32, kernel_size=2, padding=1),
+            nn.BatchNorm1d(32),
+
+            nn.ConvTranspose1d(in_channels=32, out_channels=1, kernel_size=2, padding=1),
 
             nn.Tanh(),
 
@@ -75,16 +84,26 @@ class Discriminator(nn.Module):
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Conv1d(in_channels=1, out_channels=64, kernel_size=3, padding=1),
+            nn.Conv1d(in_channels=1, out_channels=32, kernel_size=5, stride=1, padding=3),
             nn.LeakyReLU(negative_slope=0.1, inplace=True),
+
+            nn.Conv1d(in_channels=32, out_channels=64, kernel_size=4, stride=3, padding=0),
+            nn.LeakyReLU(negative_slope=0.1, inplace=True),
+            nn.BatchNorm1d(64),
 
             nn.Conv1d(in_channels=64, out_channels=128, kernel_size=3, stride=2, padding=0),
             nn.LeakyReLU(negative_slope=0.1, inplace=True),
+            nn.BatchNorm1d(128),
 
-            nn.Conv1d(in_channels=128, out_channels=64, kernel_size=3, stride=2, padding=0),
+            nn.Conv1d(in_channels=128, out_channels=64, kernel_size=2, stride=2, padding=1),
             nn.LeakyReLU(negative_slope=0.1, inplace=True),
+            nn.BatchNorm1d(64),
 
-            nn.Conv1d(in_channels=64, out_channels=1, kernel_size=3, padding=0),
+            nn.Conv1d(in_channels=64, out_channels=64, kernel_size=2, stride=1, padding=0),
+            nn.LeakyReLU(negative_slope=0.1, inplace=True),
+            nn.BatchNorm1d(64),
+
+            nn.Conv1d(in_channels=64, out_channels=1, kernel_size=1, padding=0),
 
             nn.Sigmoid()
 
@@ -103,7 +122,7 @@ print("Discriminator summary:")
 summary(discriminator, (1, latent_dim))
 
 print("Generator summary:")
-summary(generator, (1, latent_dim))
+summary(generator, (1, 1))
 
 lossFunction = nn.BCELoss()
 generatorOptim = optim.Adam(generator.parameters(), lr=lr, betas=(0.5, 0.999))
@@ -120,7 +139,7 @@ def weights_init(m):
 
 
 def gen_noise(b_size):
-    _generatedNoise = torch.randn(b_size, 1, 16, device=device)
+    _generatedNoise = torch.randn(b_size, 1, 1, device=device)
     return _generatedNoise
 
 

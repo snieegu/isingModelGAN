@@ -14,7 +14,7 @@ for i in range(len(data)):
     temperature.append(data[i].sum())
 
 plt.figure(figsize=(7, 5))
-plt.title("Temperature")
+plt.title("Real data Temperature")
 plt.plot(temperature, label="Temperature")
 plt.xlabel("")
 plt.ylabel("Temperature")
@@ -39,20 +39,9 @@ averageEnergy = numpy.asarray(energy)
 print("Average energy: ", np.average(energy))
 
 plt.figure(figsize=(7, 5))
-plt.title("Energy")
+plt.title("Real data Energy")
 plt.plot(energy, label="Energy")
 plt.xlabel("")
-plt.ylabel("Example")
+plt.ylabel("Energy")
 plt.legend()
 plt.show()
-
-duplicates = 0
-n = 98
-for i in range(len(data) - 1):
-    for j in range(n):
-        if np.array_equal(data[i], data[j + 1]):
-            duplicates = duplicates + 1
-
-    n = n - 1
-print("Duplicates", duplicates)
-

@@ -14,7 +14,7 @@ for i in range(len(data)):
     temperature.append(data[i].sum())
 
 plt.figure(figsize=(7, 5))
-plt.title("Real data Temperature")
+plt.title("Real data Magety")
 plt.plot(temperature, label="Temperature")
 plt.xlabel("")
 plt.ylabel("Temperature")
@@ -45,3 +45,8 @@ plt.xlabel("")
 plt.ylabel("Energy")
 plt.legend()
 plt.show()
+
+resultList = data.tolist()
+duplicates = {tuple(_) for _ in resultList if resultList.count(_) > 1}
+duplicatesCount = len(duplicates)
+print("duplicates: ", duplicatesCount)

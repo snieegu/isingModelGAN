@@ -12,7 +12,6 @@ ising_data = np.load('outIsing/outputDataTestFile.npy')
 data = ising_data.squeeze()
 print(data)
 print(data.shape)
-# print(type(data))
 
 for i in range(len(data)):
     temperature.append(data[i].sum())
@@ -26,7 +25,7 @@ plt.legend()
 plt.show()
 
 averageTemp = numpy.asarray(temperature)
-print("Average temperature: ", np.average(averageTemp))
+print("Average fake temperature: ", np.average(averageTemp))
 
 energySum = 0
 for i in range(len(data)):
@@ -40,7 +39,7 @@ for i in range(len(data)):
     energySum = 0
 
 averageEnergy = numpy.asarray(energy)
-print("Average energy: ", np.average(energy))
+print("Average fake energy: ", np.average(energy))
 
 plt.figure(figsize=(7, 5))
 plt.title("Fake data Energy")
@@ -49,3 +48,8 @@ plt.xlabel("")
 plt.ylabel("Energy")
 plt.legend()
 plt.show()
+
+resultList = data.tolist()
+duplicates = {tuple(x) for x in resultList if resultList.count(x) > 1}
+duplicatesCount = len(duplicates)
+print("duplicates: ", duplicatesCount, "/", len(data))

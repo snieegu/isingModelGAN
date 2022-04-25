@@ -22,13 +22,14 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 2
-batch_size = 100
+epochs = 4
+batch_size = 400
 latent_dim = 16
-lr = 0.0001
+noise_dim = 1
+lr = 0.001
 
 savedModel = "isingOne.pth"
-savedDataPath = "outIsing/outputData1epoch.npy"
+savedDataPath = "outIsing/outputDataTestFile.npy"
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])
@@ -46,29 +47,25 @@ print("device: ", device)
 class Generator(nn.Module):
     def __init__(self):
         super(Generator, self).__init__()
-        self.latent_dim = latent_dim
         self.main = nn.Sequential(
 
-            nn.ConvTranspose1d(in_channels=1, out_channels=64, kernel_size=8),
+            nn.ConvTranspose1d(in_channels=1, out_channels=64, kernel_size=6, stride=1),
+            nn.LeakyReLU(negative_slope=0.2, inplace=True),
             nn.BatchNorm1d(64),
-            # nn.ReLU(),
 
-            nn.ConvTranspose1d(in_channels=64, out_channels=128, kernel_size=4, stride=3, padding=1),
+            nn.ConvTranspose1d(in_channels=64, out_channels=128, kernel_size=4, stride=1, padding=1),
+            nn.LeakyReLU(negative_slope=0.2, inplace=True),
             nn.BatchNorm1d(128),
-            # nn.ReLU(),
 
-            nn.ConvTranspose1d(in_channels=128, out_channels=128, kernel_size=3, stride=1, padding=2),
-            nn.BatchNorm1d(128),
-            # nn.ReLU(),
-
-            nn.ConvTranspose1d(in_channels=128, out_channels=64, kernel_size=2, padding=2),
+            nn.ConvTranspose1d(in_channels=128, out_channels=64, kernel_size=4, stride=1, padding=0),
+            nn.LeakyReLU(negative_slope=0.2, inplace=True),
             nn.BatchNorm1d(64),
-            # nn.ReLU(),
 
-            nn.ConvTranspose1d(in_channels=64, out_channels=32, kernel_size=2, padding=1),
-            nn.BatchNorm1d(32),
+            nn.ConvTranspose1d(in_channels=64, out_channels=64, kernel_size=4, stride=1, padding=0),
+            nn.LeakyReLU(negative_slope=0.2, inplace=True),
+            nn.BatchNorm1d(64),
 
-            nn.ConvTranspose1d(in_channels=32, out_channels=1, kernel_size=2, padding=1),
+            nn.ConvTranspose1d(in_channels=64, out_channels=1, kernel_size=4, stride=1, padding=0),
 
             nn.Tanh(),
 
@@ -84,26 +81,11 @@ class Discriminator(nn.Module):
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Conv1d(in_channels=1, out_channels=32, kernel_size=5, stride=1, padding=3),
-            nn.LeakyReLU(negative_slope=0.1, inplace=True),
+            nn.Conv1d(in_channels=1, out_channels=512, kernel_size=2, stride=1, padding=0),
+            nn.LeakyReLU(negative_slope=0.2, inplace=True),
+            nn.BatchNorm1d(512),
 
-            nn.Conv1d(in_channels=32, out_channels=64, kernel_size=4, stride=3, padding=0),
-            nn.LeakyReLU(negative_slope=0.1, inplace=True),
-            nn.BatchNorm1d(64),
-
-            nn.Conv1d(in_channels=64, out_channels=128, kernel_size=3, stride=2, padding=0),
-            nn.LeakyReLU(negative_slope=0.1, inplace=True),
-            nn.BatchNorm1d(128),
-
-            nn.Conv1d(in_channels=128, out_channels=64, kernel_size=2, stride=2, padding=1),
-            nn.LeakyReLU(negative_slope=0.1, inplace=True),
-            nn.BatchNorm1d(64),
-
-            nn.Conv1d(in_channels=64, out_channels=64, kernel_size=2, stride=1, padding=0),
-            nn.LeakyReLU(negative_slope=0.1, inplace=True),
-            nn.BatchNorm1d(64),
-
-            nn.Conv1d(in_channels=64, out_channels=1, kernel_size=1, padding=0),
+            nn.Conv1d(in_channels=512, out_channels=1, kernel_size=15, stride=1, padding=0),
 
             nn.Sigmoid()
 
@@ -122,7 +104,7 @@ print("Discriminator summary:")
 summary(discriminator, (1, latent_dim))
 
 print("Generator summary:")
-summary(generator, (1, 1))
+summary(generator, (1, noise_dim))
 
 lossFunction = nn.BCELoss()
 generatorOptim = optim.Adam(generator.parameters(), lr=lr, betas=(0.5, 0.999))
@@ -139,11 +121,11 @@ def weights_init(m):
 
 
 def gen_noise(b_size):
-    _generatedNoise = torch.randn(b_size, 1, 1, device=device)
+    _generatedNoise = torch.randn(b_size, 1, noise_dim, device=device)
     return _generatedNoise
 
 
-def show_data(image_tensor, size=(1, 16)):
+def show_data(image_tensor, size=(1, latent_dim)):
     flatten_data = image_tensor.detach().cpu().view(-1, *size)
     print(flatten_data)
 
@@ -172,9 +154,9 @@ D_losses = []
 iters = 0
 
 start_time = time.time()
-display_step = 250
-loss_save_step = 500
-save_data_step = 500
+display_step = 10
+loss_save_step = 5
+save_data_step = 5
 mean_generator_loss = 0
 mean_discriminator_loss = 0
 
@@ -254,9 +236,9 @@ for epoch in range(epochs):
         D_losses.append(disc_loss.item())
 
         if iters % save_data_step == 0 and iters > 0:
+            fake_shape_toSave = fake.shape
             print("data saved")
             save_data(fake.sign())
-
 
 print('Cost Time: {}s'.format(time.time() - start_time))
 plt.figure(figsize=(7, 5))

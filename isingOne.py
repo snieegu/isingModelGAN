@@ -22,10 +22,10 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 1
+epochs = 10
 batch_size = 100
 latent_dim = 16
-lr = 0.0001
+lr = 0.001
 
 savedModel = "isingOne.pth"
 savedDataPath = "outIsing/outputData1epoch.npy"

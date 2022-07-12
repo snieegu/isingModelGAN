@@ -1,55 +1,66 @@
-import numpy
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+from scipy.special import binom
 
-numpy.set_printoptions(threshold=sys.maxsize)
-
-energy = []
-temperature = []
+magnetization = []
 
 ising_data = np.load('outIsing/outputDataTestFile.npy')
 data = ising_data.squeeze()
-print(data)
-print(data.shape)
+np.set_printoptions(threshold=sys.maxsize)
+energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
 
-for i in range(len(data)):
-    temperature.append(data[i].sum())
 
-plt.figure(figsize=(7, 5))
-plt.title("Fake data Temperature")
-plt.plot(temperature, label="Temperature")
-plt.xlabel("")
-plt.ylabel("Temperature")
-plt.legend()
-plt.show()
+def showSyntheticData():
+    for i in range(len(data)):
+        magnetization.append(data[i].sum())
 
-averageTemp = numpy.asarray(temperature)
-print("Average fake temperature: ", np.average(averageTemp))
+    plt.figure(figsize=(7, 5))
+    plt.title("Fake data Magnetization")
+    plt.plot(magnetization, label="Magnetization")
+    plt.xlabel("")
+    plt.ylabel("Magnetization")
+    plt.legend()
+    plt.show()
 
-energySum = 0
-for i in range(len(data)):
-    for j in range(0, 15):
-        neighbor = data[i][j - 1] + data[0][j]
-        if neighbor == 0:
-            energySum = energySum + 1
-        else:
-            energySum = energySum - 1
-    energy.append(energySum)
-    energySum = 0
+    averageMagnetization = np.asarray(magnetization)
+    print("Fake Magnetization mean: ", np.average(averageMagnetization))
+    print("Fake Energy mean:", energy.mean())
 
-averageEnergy = numpy.asarray(energy)
-print("Average fake energy: ", np.average(energy))
+    plt.figure(figsize=(7, 5))
+    plt.title("Fake data Energy")
+    plt.plot(energy, label="Energy")
+    plt.xlabel("")
+    plt.ylabel("Energy")
+    plt.legend()
+    plt.show()
 
-plt.figure(figsize=(7, 5))
-plt.title("Fake data Energy")
-plt.plot(energy, label="Energy")
-plt.xlabel("")
-plt.ylabel("Energy")
-plt.legend()
-plt.show()
 
-resultList = data.tolist()
-duplicates = {tuple(x) for x in resultList if resultList.count(x) > 1}
-duplicatesCount = len(duplicates)
-print("duplicates: ", duplicatesCount, "/", len(data))
+def countDuplicates():
+    resultList = data.tolist()
+    duplicates = {tuple(x) for x in resultList if resultList.count(x) > 1}
+    duplicatesCount = len(duplicates)
+    print("duplicates: ", duplicatesCount, "/", len(data))
+
+
+def histogram(InData, histTitle):
+    plt.title(histTitle)
+    if histTitle == "Energy Histogram":
+        L = 16
+        es = np.arange(-16, 16.5, 4)
+        rho = 2 ** (1 - L) * binom(L, (L + es) / 2) * np.exp(-es) / (np.cosh(1) ** L + np.sinh(1) ** L)
+        plt.scatter(es, rho, marker='+', s=500, c='red', label='theory')
+        plt.legend()
+    plt.hist(InData, bins=np.arange(-16.5, 17, 1), density=True)
+    plt.show()
+
+
+def main():
+    showSyntheticData()
+    countDuplicates()
+    histogram(magnetization, "Magnetization Histogram")
+    histogram(energy, "Energy Histogram")
+
+
+if __name__ == "__main__":
+    main()

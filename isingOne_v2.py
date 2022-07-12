@@ -22,8 +22,8 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 4
-batch_size = 400
+epochs = 1
+batch_size = 200
 latent_dim = 16
 noise_dim = 1
 lr = 0.001
@@ -81,11 +81,11 @@ class Discriminator(nn.Module):
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Conv1d(in_channels=1, out_channels=512, kernel_size=2, stride=1, padding=0),
+            nn.Conv1d(in_channels=1, out_channels=512, kernel_size=2, stride=1, padding=1),
             nn.LeakyReLU(negative_slope=0.2, inplace=True),
             nn.BatchNorm1d(512),
 
-            nn.Conv1d(in_channels=512, out_channels=1, kernel_size=15, stride=1, padding=0),
+            nn.Conv1d(in_channels=512, out_channels=1, kernel_size=17, stride=1, padding=0),
 
             nn.Sigmoid()
 
@@ -251,3 +251,6 @@ plt.legend()
 plt.show()
 
 save_model()
+
+
+

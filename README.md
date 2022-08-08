@@ -13,7 +13,7 @@ test.py - test original data <br/>
 |       ![](Data/RealDataEnergy.png)        |       ![](Data/RealDataMagnetization.png)       |
 |       Energy Histogram for 400 data       |      Magnetization Histogram for 400 data       |
 |   ![](Data/RealDataEnergyHistogram.png)   |   ![](Data/RealDataMagnetizationHitogram.png)   |
-|       Energy Histogram for 400 data       |      Magnetization Histogram for 400 data       |
+|      Energy Histogram for 2000 data       |      Magnetization Histogram for 2000 data      |
 | ![](Data/RealDataEnergyHistogram2000.png) | ![](Data/RealDataMagnetizationHitogram2000.png) |
 
 

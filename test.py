@@ -3,45 +3,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.special import binom
 
-# energy = []
-temperature = []
+magnetization = []
 
 ising_data = np.load('ising/cfg_x016_b0100.npy')
 data = ising_data.squeeze()
-data = data[0:400]
-# print(data.shape)
+data = data[0:2000]
+energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
 
 
-def showRealData():
+def showSyntheticData():
     for i in range(len(data)):
-        temperature.append(data[i].sum())
+        magnetization.append(data[i].sum())
 
     plt.figure(figsize=(7, 5))
     plt.title("Real data Magnetization")
-    plt.plot(temperature, label="Magnetization")
+    plt.plot(magnetization, label="Magnetization")
     plt.xlabel("")
     plt.ylabel("Magnetization")
     plt.legend()
     plt.show()
 
-    averageTemp = numpy.asarray(temperature)
-    print("Real Magnetization mean: ", np.average(averageTemp))
-
-    # energySum = 0
-    # for i in range(len(data)):
-    #     for j in range(0, 16):
-    #         neighbor = data[i][j - 1] + data[i][j]
-    #         if neighbor == 0:
-    #             energySum = energySum + 1
-    #         else:
-    #             energySum = energySum - 1
-    #     energy.append(energySum)
-    #     energySum = 0
-    #
-    # averageEnergy = numpy.asarray(energy)
-    # print("Average real energy: ", np.average(energy))
-
-    energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
+    averageMagnetization = np.asarray(magnetization)
+    print("Real Magnetization mean: ", np.average(averageMagnetization))
     print("Real Energy mean:", energy.mean())
 
     plt.figure(figsize=(7, 5))
@@ -55,14 +38,34 @@ def showRealData():
 
 def countDuplicates():
     resultList = data.tolist()
-    duplicates = {tuple(_) for _ in resultList if resultList.count(_) > 1}
+    duplicates = {tuple(x) for x in resultList if resultList.count(x) > 1}
     duplicatesCount = len(duplicates)
     print("duplicates: ", duplicatesCount, "/", len(data))
 
 
+def histogram(InData, histTitle):
+    plt.title(histTitle)
+    if histTitle == "Energy Histogram":
+        L = 16
+        es = np.arange(-16, 16.5, 4)
+        rho = 2 ** (1 - L) * binom(L, (L + es) / 2) * np.exp(-es) / (np.cosh(1) ** L + np.sinh(1) ** L)
+        plt.scatter(es, rho, marker='+', s=500, c='red', label='theory')
+        plt.legend()
+    plt.hist(InData, bins=np.arange(-16.5, 17, 1), density=True)
+    plt.show()
+
+
 def main():
-    showRealData()
+    showSyntheticData()
     countDuplicates()
+    histogram(magnetization, "Magnetization Histogram")
+    histogram(energy, "Energy Histogram")
+    print(magnetization)
+    count = 0
+    for i in range(len(magnetization)):
+        if magnetization[i] == 15:
+            count = count + 1
+    print(count)
 
 
 if __name__ == "__main__":

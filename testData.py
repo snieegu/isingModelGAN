@@ -60,7 +60,12 @@ def main():
     countDuplicates()
     histogram(magnetization, "Magnetization Histogram")
     histogram(energy, "Energy Histogram")
-
+    print(magnetization)
+    count = 0
+    for i in range(len(magnetization)):
+        if magnetization[i] == 15:
+            count = count + 1
+    print(count)
 
 if __name__ == "__main__":
     main()

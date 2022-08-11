@@ -5,6 +5,9 @@
 <h4>isingOne_v2.py</h4>
 Convolutional networks generating data with a batch of 400, noise of length 1.
 
+<h4>isingOne_Linear.py</h4>
+Linear (Fully connected layers) network generating data with a batch of 200, noise of length 1.
+
 <h4>testData.py</h4>
 A file that tests the generated data and also produces graphs.
 

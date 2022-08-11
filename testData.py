@@ -5,10 +5,12 @@ from scipy.special import binom
 
 magnetization = []
 
-ising_data = np.load('outIsing/outputDataTestFile.npy')
+ising_data = np.load('outIsing/outputDataTestFileLinear.npy')
 data = ising_data.squeeze()
 np.set_printoptions(threshold=sys.maxsize)
 energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
+
+print(data)
 
 
 def showSyntheticData():
@@ -45,7 +47,7 @@ def countDuplicates():
 
 def histogram(InData, histTitle):
     plt.title(histTitle)
-    if histTitle == "Energy Histogram":
+    if histTitle == "Fake Energy Histogram":
         L = 16
         es = np.arange(-16, 16.5, 4)
         rho = 2 ** (1 - L) * binom(L, (L + es) / 2) * np.exp(-es) / (np.cosh(1) ** L + np.sinh(1) ** L)
@@ -58,8 +60,8 @@ def histogram(InData, histTitle):
 def main():
     showSyntheticData()
     countDuplicates()
-    histogram(magnetization, "Magnetization Histogram")
-    histogram(energy, "Energy Histogram")
+    histogram(magnetization, "Fake Magnetization Histogram")
+    histogram(energy, "Fake Energy Histogram")
     print(magnetization)
     count = 0
     for i in range(len(magnetization)):

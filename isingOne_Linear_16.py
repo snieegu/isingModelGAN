@@ -22,14 +22,14 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 90
-batch_size = 1200
+epochs = 28
+batch_size = 2200
 latent_dim = 16
-noise_dim = 1
-lr = 0.0002
+noise_dim = 16
+lr = 0.0004
 
-savedModel = "isingOneLinear.pth"
-savedDataPath = "outIsing/outputDataTestFileLinear.npy"
+savedModel = "isingOneLinear16.pth"
+savedDataPath = "outIsing/outputDataTestFileLinear16.npy"
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])
@@ -49,7 +49,7 @@ class Generator(nn.Module):
         super(Generator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Linear(in_features=1, out_features=64),
+            nn.Linear(in_features=16, out_features=64),
             nn.LeakyReLU(0.2),
 
             nn.Linear(in_features=64, out_features=512),
@@ -245,6 +245,3 @@ plt.legend()
 plt.show()
 
 save_model()
-
-
-

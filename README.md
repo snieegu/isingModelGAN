@@ -24,7 +24,7 @@ File testing original unprocessed data <br/>
 |      Energy Histogram for 2000 data       |      Magnetization Histogram for 2000 data      |
 | ![](Data/RealDataEnergyHistogram2000.png) | ![](Data/RealDataMagnetizationHitogram2000.png) |
 
-<h3 align="center">Charts of Generated data by isingOne_v2.py (Convolutional networks)</h3>
+<h3 align="center">Charts of Generated data by isingOne_v2.py </h3> <h6 align="center">(Convolutional networks)</h6>
 
 |           Energy charts           |           Magnetization charts           |
 |:---------------------------------:|:----------------------------------------:|
@@ -32,13 +32,21 @@ File testing original unprocessed data <br/>
 |   Energy Histogram for 400 data   |   Magnetization Histogram for 400 data   |
 | ![](Data/FakeEnergyHistogram.png) | ![](Data/FakeMagnetizationHistogram.png) |
 
-<h3 align="center">Charts of Generated data by isingOne_Linear.py (Fully connected layers)</h3>
+<h3 align="center">Charts of Generated data by isingOne_Linear.py</h3> <h6 align="center">(Fully connected layers)</h6>
 
 |                   Energy charts                    |                   Magnetization charts                    |
 |:--------------------------------------------------:|:---------------------------------------------------------:|
 |   ![](outDataLinear-7-200-1-0005/FakeEnergy.png)   |   ![](outDataLinear-7-200-1-0005/FakeMagnetization.png)   |
 |           Energy Histogram for 200 data            |           Magnetization Histogram for 200 data            |
 | ![](outDataLinear-7-200-1-0005/FakeEnergyHist.png) | ![](outDataLinear-7-200-1-0005/FakeMagnetizationHist.png) |
+
+<h3 align="center">Charts of Generated data by isingOne_Linear_16.py</h3> <h6 align="center">(Fully connected layers with input noice of length 16)</h6>
+
+|                       Energy charts                       |                       Magnetization charts                       |
+|:---------------------------------------------------------:|:----------------------------------------------------------------:|
+|   ![](outData[16]Linear-28-2200-16-0004/FakeEnergy.png)   |   ![](outData[16]Linear-28-2200-16-0004/FakeMagnetization.png)   |
+|               Energy Histogram for 200 data               |               Magnetization Histogram for 200 data               |
+| ![](outData[16]Linear-28-2200-16-0004/FakeEnergyHist.png) | ![](outData[16]Linear-28-2200-16-0004/FakeMagnetizationHist.png) |
 
 
 

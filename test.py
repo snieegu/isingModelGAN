@@ -45,11 +45,17 @@ def countDuplicates():
 
 def histogram(InData, histTitle):
     plt.title(histTitle)
+    es = np.arange(-16, 16.5, 4)
+    ms = np.arange(-16, 16.5, 2)
+    L = 16
     if histTitle == "Energy Histogram":
-        L = 16
-        es = np.arange(-16, 16.5, 4)
         rho = 2 ** (1 - L) * binom(L, (L + es) / 2) * np.exp(-es) / (np.cosh(1) ** L + np.sinh(1) ** L)
         plt.scatter(es, rho, marker='+', s=500, c='red', label='theory')
+        plt.legend()
+    else:
+        rho = [0.13, 0.04, 0.043, 0.05, 0.046, 0.059, 0.06, 0.055, 0.061, 0.051, 0.05, 0.047, 0.042, 0.041, 0.047,
+               0.032, 0.121]
+        plt.scatter(ms, rho, marker='+', s=500, c='red', label='theory')
         plt.legend()
     plt.hist(InData, bins=np.arange(-16.5, 17, 1), density=True)
     plt.show()

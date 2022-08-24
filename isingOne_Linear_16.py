@@ -1,15 +1,17 @@
+import time
+from tempfile import TemporaryFile
+
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import time
 import torch.nn as nn
-import torchvision.transforms as transforms
 import torch.optim as optim
-from tqdm import tqdm
-from torchsummary import summary
+import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
-import matplotlib.pyplot as plt
+from torchsummary import summary
+from tqdm import tqdm
+
 from isingDataset import IsingDataset
-from tempfile import TemporaryFile
 
 ising_data = np.load('ising/s_cfg_x016_b0100.npy')
 ising_data = ising_data.astype(np.float32)
@@ -22,7 +24,7 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 150
+epochs = 200
 batch_size = 12500
 latent_dim = 16
 noise_dim = 16

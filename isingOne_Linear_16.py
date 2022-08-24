@@ -22,11 +22,11 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 28
-batch_size = 2200
+epochs = 150
+batch_size = 12500
 latent_dim = 16
 noise_dim = 16
-lr = 0.0004
+lr = 0.0002
 
 savedModel = "isingOneLinear16.pth"
 savedDataPath = "outIsing/outputDataTestFileLinear16.npy"
@@ -49,10 +49,10 @@ class Generator(nn.Module):
         super(Generator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Linear(in_features=16, out_features=64),
+            nn.Linear(in_features=16, out_features=128),
             nn.LeakyReLU(0.2),
 
-            nn.Linear(in_features=64, out_features=512),
+            nn.Linear(in_features=128, out_features=512),
             nn.LeakyReLU(0.2),
 
             nn.Linear(in_features=512, out_features=16),
@@ -75,11 +75,11 @@ class Discriminator(nn.Module):
             nn.LeakyReLU(0.2),
             nn.Dropout(0.2),
 
-            nn.Linear(in_features=256, out_features=256),
+            nn.Linear(in_features=256, out_features=512),
             nn.LeakyReLU(0.2),
             nn.Dropout(0.2),
 
-            nn.Linear(in_features=256, out_features=1),
+            nn.Linear(in_features=512, out_features=1),
 
             nn.Sigmoid()
 
@@ -90,8 +90,8 @@ class Discriminator(nn.Module):
         return output
 
 
-genNN = Generator()
-generator = Generator().to(device)
+generator = Generator()
+generator.to(device)
 discriminator = Discriminator().to(device)
 
 print("Discriminator summary:")
@@ -125,7 +125,7 @@ def show_data(image_tensor, size=(1, latent_dim)):
 
 
 def save_model():
-    torch.save(genNN.state_dict(), savedModel)
+    torch.save(generator.state_dict(), savedModel)
 
 
 def save_data(data, size=(1, 16)):
@@ -245,3 +245,4 @@ plt.legend()
 plt.show()
 
 save_model()
+print("MODEL SAVED!")

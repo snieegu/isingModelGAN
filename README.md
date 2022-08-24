@@ -40,14 +40,13 @@ File testing original unprocessed data <br/>
 |                  Energy Histogram                  |                  Magnetization Histogram                  |
 | ![](outDataLinear-7-200-1-0005/FakeEnergyHist.png) | ![](outDataLinear-7-200-1-0005/FakeMagnetizationHist.png) |
 
-<h3 align="center">Charts of Generated data by isingOne_Linear_16.py</h3> <h6 align="center">(Fully connected layers with input noice of length 16)</h6>
+<h3 align="center">Charts of Generated data by isingOne_Linear_16.py</h3> <h6 align="center">(Fully connected layers
+with input noice of length 16)</h6>
 
-|                       Energy charts                       |                       Magnetization charts                       |
-|:---------------------------------------------------------:|:----------------------------------------------------------------:|
-|   ![](outData[16]Linear-28-2200-16-0004/FakeEnergy.png)   |   ![](outData[16]Linear-28-2200-16-0004/FakeMagnetization.png)   |
-|                     Energy Histogram                      |                     Magnetization Histogram                      |
-| ![](outData[16]Linear-28-2200-16-0004/FakeEnergyHist.png) | ![](outData[16]Linear-28-2200-16-0004/FakeMagnetizationHist.png) |
-
-
-
+|                        Energy charts                        |                        Magnetization charts                        |
+|:-----------------------------------------------------------:|:------------------------------------------------------------------:|
+|    ![](outData[16]Linear-28-2200-16-0004/FakeEnergy.png)    |    ![](outData[16]Linear-28-2200-16-0004/FakeMagnetization.png)    |
+|                      Energy Histogram                       |                      Magnetization Histogram                       |
+|  ![](outData[16]Linear-28-2200-16-0004/FakeEnergyHist.png)  |  ![](outData[16]Linear-28-2200-16-0004/FakeMagnetizationHist.png)  |
+| ![](outData[16]Linear-150-12500-16-0002/FakeEnergyHist.png) | ![](outData[16]Linear-150-12500-16-0002/FakeMagnetizationHist.png) |
 

@@ -4,17 +4,19 @@ import sys
 from scipy.special import binom
 
 magnetization = []
-
-ising_data = np.load('outIsing/outputDataTestFileLinear16.npy')
+ising_data = np.load('outIsing/outputDataCustomGenerator.npy')
+# ising_data = np.load('outIsing/outputDataTestFileLinear16.npy')
+print("clear data shape: ", ising_data.shape)
 data = ising_data.squeeze()
-data = data[0:400]
-np.set_printoptions(threshold=sys.maxsize)
+data = data[0:30000]
+# np.set_printoptions(threshold=sys.maxsize)
 energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
 
-print(data)
+print("data after squeeze", data.shape)
+dataSize = len(data)
 
 
-def showSyntheticData():
+def showSyntheticDataChart():
     for i in range(len(data)):
         magnetization.append(data[i].sum())
 
@@ -48,6 +50,8 @@ def countDuplicates():
 
 def histogram(InData, histTitle):
     plt.title(histTitle)
+    plt.xlabel("Histogram for " + str(dataSize) + " data")
+    plt.ylabel("")
     es = np.arange(-16, 16.5, 4)
     ms = np.arange(-16, 16.5, 2)
     L = 16
@@ -65,11 +69,10 @@ def histogram(InData, histTitle):
 
 
 def main():
-    showSyntheticData()
+    showSyntheticDataChart()
     countDuplicates()
     histogram(magnetization, "Fake Magnetization Histogram")
     histogram(energy, "Fake Energy Histogram")
-    print(magnetization)
     count = 0
     for i in range(len(magnetization)):
         if magnetization[i] == 15:

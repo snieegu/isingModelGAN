@@ -7,9 +7,10 @@ magnetization = []
 
 ising_data = np.load('ising/cfg_x016_b0100.npy')
 data = ising_data.squeeze()
-data = data[0:2000]
+# data = data[0:2000]
 energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
 
+print(len(data))
 
 def showSyntheticData():
     for i in range(len(data)):

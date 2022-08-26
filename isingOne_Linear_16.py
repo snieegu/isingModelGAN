@@ -27,11 +27,11 @@ print("sample ising data tensor shape", ising_data_ready[0].shape)
 epochs = 200
 batch_size = 12500
 latent_dim = 16
-noise_dim = 16
+noise_dim = 16  # <- size of input noise
 lr = 0.0002
 
-savedModel = "isingOneLinear16.pth"
-savedDataPath = "outIsing/outputDataTestFileLinear16.npy"
+savedModel = "isingOneLinear16.pth"  # <- path to save model
+savedDataPath = "outIsing/outputDataTestFileLinear16.npy"  # <-path to save the data
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])

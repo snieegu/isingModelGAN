@@ -32,21 +32,13 @@ File testing original unprocessed data <br/>
 |         Energy Histogram          |         Magnetization Histogram          |
 | ![](Data/FakeEnergyHistogram.png) | ![](Data/FakeMagnetizationHistogram.png) |
 
-<h3 align="center">Charts of Generated data by isingOne_Linear.py</h3> <h6 align="center">(Fully connected layers)</h6>
 
-|                   Energy charts                    |                   Magnetization charts                    |
-|:--------------------------------------------------:|:---------------------------------------------------------:|
-|   ![](outDataLinear-7-200-1-0005/FakeEnergy.png)   |   ![](outDataLinear-7-200-1-0005/FakeMagnetization.png)   |
-|                  Energy Histogram                  |                  Magnetization Histogram                  |
-| ![](outDataLinear-7-200-1-0005/FakeEnergyHist.png) | ![](outDataLinear-7-200-1-0005/FakeMagnetizationHist.png) |
+<h3 align="center">Charts of Generated data by Linear Models</h3> <h6 align="center">(Fully connected layers)</h6>
 
-<h3 align="center">Charts of Generated data by isingOne_Linear_16.py</h3> <h6 align="center">(Fully connected layers
-with input noice of length 16)</h6>
+|                          Input noise 2                           |                          Input noise 4                           |                          Input noise 8                           |                           Input noise 16                            |                           Input noise 32                           |
+|:----------------------------------------------------------------:|:----------------------------------------------------------------:|:----------------------------------------------------------------:|:-------------------------------------------------------------------:|:------------------------------------------------------------------:|
+|         ![](outData[2]Linear/200-12500-2-0002/Loss.png)          |           ![](outData[4]Linear/200-12500-4-0002/Loss.png)        |          ![](outData[8]Linear/400-12500-8-0002/Loss.png)         |                                                                     |         ![](outData[32]Linear/200-12500-32-0002/Loss.png)          |
+|    ![](outData[2]Linear/200-12500-2-0002/FakeEnergyHist.png)     |    ![](outData[4]Linear/200-12500-4-0002/FakeEnergyHist.png)     |    ![](outData[8]Linear/400-12500-8-0002/FakeEnergyHist.png)     |    ![](outData[16]Linear-200-12500-16-0002/FakeEnergyHist_2.png)    |    ![](outData[32]Linear/200-12500-32-0002/FakeEnergyHist.png)     |
+| ![](outData[2]Linear/200-12500-2-0002/FakeMagnetizationHist.png) | ![](outData[4]Linear/200-12500-4-0002/FakeMagnetizationHist.png) | ![](outData[4]Linear/200-12500-4-0002/FakeMagnetizationHist.png) | ![](outData[16]Linear-200-12500-16-0002/FakeMagnetizationHist2.png) | ![](outData[32]Linear/200-12500-32-0002/FakeMagnetizationHist.png) |
 
-|                        Energy charts                        |                        Magnetization charts                        |
-|:-----------------------------------------------------------:|:------------------------------------------------------------------:|
-|    ![](outData[16]Linear-28-2200-16-0004/FakeEnergy.png)    |    ![](outData[16]Linear-28-2200-16-0004/FakeMagnetization.png)    |
-|                      Energy Histogram                       |                      Magnetization Histogram                       |
-|  ![](outData[16]Linear-28-2200-16-0004/FakeEnergyHist.png)  |  ![](outData[16]Linear-28-2200-16-0004/FakeMagnetizationHist.png)  |
-| ![](outData[16]Linear-150-12500-16-0002/FakeEnergyHist.png) | ![](outData[16]Linear-150-12500-16-0002/FakeMagnetizationHist.png) |
 

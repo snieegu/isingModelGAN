@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import binom
 
-ising_data = np.load('outIsing/outputDataCustomGeneratorLinear8.npy')  # <- data for the test from the generated
+ising_data = np.load('outIsing/outputDataCustomGeneratorLinear64.npy')  # <- data for the test from the generated
 # batch data
 # ising_data = np.load('outIsing/outputDataTestFileLinear4.npy')  # <- test data coming from the generator
 print("clear data shape: ", ising_data.shape)

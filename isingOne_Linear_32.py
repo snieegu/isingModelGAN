@@ -24,11 +24,11 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 250
-batch_size = 20000
+epochs = 300
+batch_size = 12500
 latent_dim = 16
 noise_dim = 32  # <- size of input noise
-lr = 0.0002
+lr = 0.0001
 
 savedModel = "isingOneLinear32.pth"  # <- path to save model
 savedDataPath = "outIsing/outputDataTestFileLinear32.npy"  # <-path to save the data

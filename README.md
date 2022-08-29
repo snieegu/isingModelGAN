@@ -19,21 +19,22 @@ File generating and saving specified amount of data to be processed by testing s
 
 <h3 align="center">Charts of real data</h3>
 
-|               Energy charts               |              Magnetization charts               |
-|:-----------------------------------------:|:-----------------------------------------------:|
-|       ![](Data/RealDataEnergy.png)        |       ![](Data/RealDataMagnetization.png)       |
-|       Energy Histogram for 400 data       |      Magnetization Histogram for 400 data       |
-|   ![](Data/RealDataEnergyHistogram.png)   |   ![](Data/RealDataMagnetizationHitogram.png)   |
-|      Energy Histogram for 2000 data       |      Magnetization Histogram for 2000 data      |
-| ![](Data/RealDataEnergyHistogram2000.png) | ![](Data/RealDataMagnetizationHitogram2000.png) |
+|              Energy chart              |             Magnetization chart              |
+|:--------------------------------------:|:--------------------------------------------:|
+|  ![](Data/RealDataEnergyHistogram.png) |  ![](Data/RealDataMagnetizationHitogram.png) |
 
-<h3 align="center">Charts of Generated data by isingOne_v2.py </h3> <h6 align="center">(Convolutional networks)</h6>
+[//]: # (<h3 align="center">Charts of Generated data by isingOne_v2.py </h3> <h6 align="center">&#40;Convolutional networks&#41;</h6>)
 
-|           Energy charts           |           Magnetization charts           |
-|:---------------------------------:|:----------------------------------------:|
-|   ![](Data/FakeDataEnergy.png)    |   ![](Data/FakeDataMagnetization.png)    |
-|         Energy Histogram          |         Magnetization Histogram          |
-| ![](Data/FakeEnergyHistogram.png) | ![](Data/FakeMagnetizationHistogram.png) |
+[//]: # ()
+[//]: # (|           Energy charts           |           Magnetization charts           |)
+
+[//]: # (|:---------------------------------:|:----------------------------------------:|)
+
+[//]: # (|   ![]&#40;Data/FakeDataEnergy.png&#41;    |   ![]&#40;Data/FakeDataMagnetization.png&#41;    |)
+
+[//]: # (|         Energy Histogram          |         Magnetization Histogram          |)
+
+[//]: # (| ![]&#40;Data/FakeEnergyHistogram.png&#41; | ![]&#40;Data/FakeMagnetizationHistogram.png&#41; |)
 
 <h3 align="center">Charts of Generated data by Linear Models</h3> <h6 align="center">(Fully connected layers)</h6>
 

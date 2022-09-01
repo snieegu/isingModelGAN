@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 from isingDataset import IsingDataset
 
-ising_data = np.load('ising/s_cfg_x016_b0100.npy')
+ising_data = np.load('ising/s_cfg_x128_b0100.npy')  # <- input ising model configuration
 ising_data = ising_data.astype(np.float32)
 ising_data_ready = torch.Tensor(ising_data).unsqueeze(0)
 print("sample ising data", ising_data[0])
@@ -24,14 +24,14 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 200
+epochs = 300
 batch_size = 12500
-latent_dim = 16
+latent_dim = 128  # <- size of ising model configuration
 noise_dim = 16  # <- size of input noise
 lr = 0.0002
 
-savedModel = "isingOneLinear16.pth"  # <- path to save model
-savedDataPath = "outIsing/outputDataTestFileLinear16.npy"  # <-path to save the data
+savedModel = "isingOne(128)Linear[16].pth"  # <- path to save model
+savedDataPath = "outIsing/outputData(128)TestFileLinear[16].npy"  # <-path to save the data
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])
@@ -51,13 +51,13 @@ class Generator(nn.Module):
         super(Generator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Linear(in_features=16, out_features=128),
+            nn.Linear(in_features=noise_dim, out_features=128),
             nn.LeakyReLU(0.2),
 
             nn.Linear(in_features=128, out_features=512),
             nn.LeakyReLU(0.2),
 
-            nn.Linear(in_features=512, out_features=16),
+            nn.Linear(in_features=512, out_features=latent_dim),
 
             nn.Tanh(),
 
@@ -73,7 +73,7 @@ class Discriminator(nn.Module):
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Linear(in_features=16, out_features=256),
+            nn.Linear(in_features=latent_dim, out_features=256),
             nn.LeakyReLU(0.2),
             nn.Dropout(0.2),
 

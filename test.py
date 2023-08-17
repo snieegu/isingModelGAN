@@ -2,13 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import binom
 
-ising_data = np.load('ising/cfg_x128_b0100.npy')
-isingSize = 128
-data = ising_data.squeeze()
-dataLength = len(data)
+ising_realData = np.load('ising/s_cfg_x032_b0050.npy')
+ising_realData = np.sign(ising_realData)
+isingSize = 32
+realData = ising_realData.squeeze()
+dataLength = len(realData)
 
-energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
-magnetization = data.sum(axis=1)
+energy = -(realData * np.roll(realData, 1, 1)).sum(1).astype('int64')
+magnetization = realData.sum(axis=1)
 
 
 def showSyntheticData():
@@ -42,11 +43,12 @@ def countDuplicates():
 
 def energyHistogram(InData):
     plt.title("Energy Histogram")
-    es = np.arange(-isingSize, isingSize + 0.5, 4)
-    L = isingSize
-    rho = 2 ** (1 - L) * binom(L, (L + es) / 2) * np.exp(-es) / (np.cosh(1) ** L + np.sinh(1) ** L)
+    ms = np.arange(-isingSize, isingSize + 0.5, 4)
+    es = np.arange(-isingSize - 2, isingSize + 2.5, 4)
+    hist, bins = np.histogram(energy, es)
+    rho = (hist / dataLength)
     plt.xlabel("Histogram for " + str(dataLength) + " data")
-    plt.scatter(es, rho, marker='+', s=500, c='red', label='theory')
+    plt.scatter(ms, rho, marker='+', s=500, c='red', label='theory')
     plt.hist(InData, bins=np.arange(-isingSize - 0.5, isingSize + 1, 1), density=True)
     plt.legend()
     plt.show()
@@ -66,6 +68,7 @@ def magnetizationHistogram(InData):
 
 
 def main():
+    print("Real Energy ", energy)
     # showSyntheticData()
     # countDuplicates()
     energyHistogram(energy)

@@ -2,37 +2,44 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import binom
 
-ising_data = np.load('outIsing/outputData(128)CustomGeneratorLinear[64].npy')  # <- data for the test from the generated
+ising_fakeData = np.load(
+    'outIsing/outputData(32-0150)TestFileLinearFloat[32].npy')  # <- data for the test from the generated
 # batch data
 # ising_data = np.load('outIsing/outputDataTestFileLinear4.npy')  # <- test data coming from the generator
-ising_realData = np.load('ising/cfg_x128_b0100.npy')
-print("clear data shape: ", ising_data.shape)
-isingSize = 128  # <- modify configuration length based on input
-data = ising_data.squeeze()
-dataLength = len(data)
+ising_realData = np.load('ising/s_cfg_x032_b0150.npy')
+ising_realData = np.sign(ising_realData)
+
+# print("clear data shape: ", ising_data.shape)
+isingSize = 32  # <- modify configuration length based on input
+
+fakeData = ising_fakeData.squeeze()
 realData = ising_realData.squeeze()
+
+dataLength = len(fakeData)
+
+realEnergy = -(realData * np.roll(realData, 1, 1)).sum(1).astype('int64')
 realMagnetization = realData.sum(axis=1)
 
-energy = -(data * np.roll(data, 1, 1)).sum(1).astype('int64')
-magnetization = data.sum(axis=1)
+fakeEnergy = -(fakeData * np.roll(fakeData, 1, 1)).sum(1).astype('int64')
+fakeMagnetization = fakeData.sum(axis=1)
 
 
 def showSyntheticDataChart():
     plt.figure(figsize=(7, 5))
     plt.title("Fake data Magnetization")
-    plt.plot(magnetization, label="Magnetization")
+    plt.plot(fakeMagnetization, label="Magnetization")
     plt.xlabel("")
     plt.ylabel("Magnetization")
     plt.legend()
     plt.show()
 
-    averageMagnetization = np.asarray(magnetization)
+    averageMagnetization = np.asarray(fakeMagnetization)
     print("Fake Magnetization mean: ", np.average(averageMagnetization))
-    print("Fake Energy mean:", energy.mean())
+    print("Fake Energy mean:", fakeEnergy.mean())
 
     plt.figure(figsize=(7, 5))
     plt.title("Fake data Energy")
-    plt.plot(energy, label="Energy")
+    plt.plot(fakeEnergy, label="Energy")
     plt.xlabel("")
     plt.ylabel("Energy")
     plt.legend()
@@ -40,7 +47,7 @@ def showSyntheticDataChart():
 
 
 def countDuplicates():
-    resultList = data.tolist()
+    resultList = fakeData.tolist()
     duplicates = {tuple(x) for x in resultList if resultList.count(x) > 1}
     duplicatesCount = len(duplicates)
     print("duplicates: ", duplicatesCount, "/", dataLength)
@@ -48,11 +55,12 @@ def countDuplicates():
 
 def energyHistogram(InData):
     plt.title("Energy Histogram")
-    es = np.arange(-isingSize, isingSize + 0.5, 4)
-    L = isingSize
-    rho = 2 ** (1 - L) * binom(L, (L + es) / 2) * np.exp(-es) / (np.cosh(1) ** L + np.sinh(1) ** L)
+    ms = np.arange(-isingSize, isingSize + 0.5, 4)
+    es = np.arange(-isingSize - 2, isingSize + 2.5, 4)
+    hist, bins = np.histogram(realEnergy, es)
+    rho = (hist / dataLength)
     plt.xlabel("Histogram for " + str(dataLength) + " data")
-    plt.scatter(es, rho, marker='+', s=500, c='red', label='theory')
+    plt.scatter(ms, rho, marker='+', s=500, c='red', label='theory')
     plt.hist(InData, bins=np.arange(-isingSize - 0.5, isingSize + 1, 1), density=True)
     plt.legend()
     plt.show()
@@ -74,8 +82,8 @@ def magnetizationHistogram(InData):
 def main():
     # showSyntheticDataChart()
     # countDuplicates()
-    energyHistogram(energy)
-    magnetizationHistogram(magnetization)
+    energyHistogram(fakeEnergy)
+    magnetizationHistogram(fakeMagnetization)
     # count = 0
     # for i in range(len(magnetization)):
     #     if magnetization[i] == 15:

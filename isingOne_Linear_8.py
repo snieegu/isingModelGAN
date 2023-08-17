@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 from isingDataset import IsingDataset
 
-ising_data = np.load('ising/s_cfg_x128_b0100.npy')  # <- input ising model configuration
+ising_data = np.load('ising/s_cfg_x032_b0150.npy')  # <- input ising model configuration
 ising_data = ising_data.astype(np.float32)
 ising_data_ready = torch.Tensor(ising_data).unsqueeze(0)
 print("sample ising data", ising_data[0])
@@ -24,14 +24,14 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 300
+epochs = 600
 batch_size = 12500
-latent_dim = 128  # <- size of ising model configuration
+latent_dim = 32  # <- size of ising model configuration
 noise_dim = 8  # <- size of input noise
 lr = 0.0002
 
-savedModel = "isingOne(128)Linear[8].pth"  # <- path to save model
-savedDataPath = "outIsing/outputData(128)TestFileLinear[8].npy"  # <-path to save the data
+savedModel = "isingOne(32-0150)Linear[8].pth"  # <- path to save model
+savedDataPath = "outIsing/outputData(32-0150)TestFileLinear[8].npy"  # <-path to save the data
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])

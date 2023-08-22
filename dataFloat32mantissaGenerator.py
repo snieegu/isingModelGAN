@@ -4,7 +4,7 @@ import Float32learningModel  # <- importing the appropriate model file
 
 noise_dim = 32  # <- size of input noise
 volume = 100000  # <- expected amount of data
-savedDataPath = "outIsing/outputData(32-0150)TestFileLinearFloat[32].npy"  # <-path to save the data
+savedDataPath = "outIsingData/outputData(32-0150)TestFileLinearFloat[32].npy"  # <-path to save the data
 
 inputData = torch.randn(volume, 1, noise_dim)
 model = Float32learningModel.predictor()  # <- running the appropriate model

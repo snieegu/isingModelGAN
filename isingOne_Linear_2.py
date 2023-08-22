@@ -31,7 +31,7 @@ noise_dim = 2  # <- size of input noise
 lr = 0.0002
 
 savedModel = "isingOneLinear2.pth"  # <- path to save model
-savedDataPath = "outIsing/outputDataTestFileLinear2.npy"  # <-path to save the data
+savedDataPath = "outIsingData/outputDataTestFileLinear2.npy"  # <-path to save the data
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])

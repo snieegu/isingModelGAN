@@ -29,7 +29,7 @@ noise_dim = 1
 lr = 0.0002
 
 savedModel = "isingOneLinear.pth"
-savedDataPath = "outIsing/outputDataTestFileLinear.npy"
+savedDataPath = "outIsingData/outputDataTestFileLinear.npy"
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])

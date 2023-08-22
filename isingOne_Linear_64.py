@@ -13,7 +13,14 @@ from tqdm import tqdm
 
 from isingDataset import IsingDataset
 
-ising_data = np.load('ising/isingData2/cfg_x064_b0018.npy')  # <- input ising model configuration
+epochs = 350
+batch_size = 12500
+latent_dim = 64  # <- size of ising model configuration
+noise_dim = 1  # <- size of input noise
+lr = 0.0001
+beta = "0136"
+
+ising_data = np.load("ising/isingData2/cfg_x064_b" + beta + ".npy")  # <- input ising model configuration
 ising_data = ising_data.astype(np.float32)
 ising_data_ready = torch.Tensor(ising_data).unsqueeze(0)
 print("sample ising data", ising_data[0])
@@ -24,14 +31,10 @@ print("sample ising data tensor", ising_data_ready[0])
 print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
-epochs = 500
-batch_size = 12500
-latent_dim = 64  # <- size of ising model configuration
-noise_dim = 64  # <- size of input noise
-lr = 0.0002
-
-savedModel = "savedModels/isingOne("+str(latent_dim)+"-0018)Linear["+str(latent_dim)+"].pth"  # <- path to save model
-savedDataPath = "outIsing/outputData("+str(latent_dim)+"-0018)TestFileLinear["+str(latent_dim)+"].npy"  # <-path to save the data
+savedModel = "savedModels/isingOne(" + str(latent_dim) + "-" + beta + ")Linear[" + str(
+    noise_dim) + "].pth"  # <- path to save model
+savedDataPath = "outIsingData/" + str(latent_dim) + "-" + beta + "[" + str(noise_dim) + "]/outputData(" + str(
+    latent_dim) + "-" + beta + ")TestFileLinear[" + str(noise_dim) + "].npy"  # <-path to save the data
 outfile = TemporaryFile()
 
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])
@@ -92,8 +95,7 @@ class Discriminator(nn.Module):
         return output
 
 
-generator = Generator()
-generator.to(device)
+generator = Generator().to(device)
 discriminator = Discriminator().to(device)
 
 print("Discriminator summary:")
@@ -215,6 +217,7 @@ for epoch in range(epochs):
         generatorOptim.step()
         # Keep track of the average generator loss
         mean_generator_loss += gen_loss.item() / display_step
+
         ## Visualization code ##
         if iters % display_step == 0 and iters > 0:
             print(

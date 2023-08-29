@@ -1,12 +1,18 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from isingOne_Linear_64 import noise_dim, beta, latent_dim
+# from isingOne_Linear_64 import noise_dim, beta, latent_dim
 from scipy.special import binom
 
+latent_dim = 64  # <- size of ising model configuration
+noise_dim = 32  # <- size of input noise
+beta = "s0100"
+
 ising_fakeData = np.load(
-    "outIsingData/" + str(latent_dim) + "-" + beta + "[" + str(noise_dim) + "]/outputData(" + str(latent_dim) + "-" + beta + ")TestFileLinear[" + str(noise_dim) + "].npy")  # <- data for the test from the generated batch data
+    "outIsingData/" + beta + "/" + str(latent_dim) + "-" + beta + "[" + str(noise_dim) + "]/outputData(" + str(
+        latent_dim) + "-" + beta + ")TestFileLinear[" + str(
+        noise_dim) + "]Generated.npy")  # <- data for the test from the generated batch data
 # ising_data = np.load('outIsingData/outputDataTestFileLinear4.npy')  # <- test data coming from the generator
-ising_realData = np.load("ising/isingData2/cfg_x064_b" + beta + ".npy")
+ising_realData = np.load("ising/s_cfg_x064_b" + beta[1:] + ".npy")
 ising_realData = np.sign(ising_realData)
 
 # print("clear data shape: ", ising_data.shape)

@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 from isingDataset import IsingDataset
 
-epochs = 100
+epochs = 50
 batch_size = 6250
 latent_dim = 64  # <- size of ising model configuration
 noise_dim = 32  # <- size of input noise
@@ -85,7 +85,11 @@ class Discriminator(nn.Module):
             nn.LeakyReLU(0.2),
             nn.Dropout(0.2),
 
-            nn.Linear(in_features=4096, out_features=1),
+            nn.Linear(in_features=4096, out_features=1024),
+            nn.LeakyReLU(0.2),
+            nn.Dropout(0.2),
+
+            nn.Linear(in_features=1024, out_features=1),
 
             nn.Sigmoid()
 

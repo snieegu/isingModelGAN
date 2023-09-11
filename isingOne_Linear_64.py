@@ -13,14 +13,15 @@ from tqdm import tqdm
 
 from isingDataset import IsingDataset
 
-epochs = 50
-batch_size = 6250
+torch.cuda.empty_cache()
+epochs = 400
+batch_size = 12500
 latent_dim = 64  # <- size of ising model configuration
-noise_dim = 32  # <- size of input noise
+noise_dim = 64  # <- size of input noise
 lr = 0.0001
-beta = "s0100"
+beta = "s0136"
 
-ising_data = np.load("ising/s_cfg_x064_b" + beta[1:] + ".npy")  # <- input ising model configuration
+ising_data = np.load("ising/isingData2/s_cfg_x064_b" + beta[1:] + ".npy")  # <- input ising model configuration
 ising_data = ising_data.astype(np.float32)
 ising_data_ready = torch.Tensor(ising_data).unsqueeze(0)
 print("sample ising data", ising_data[0])
@@ -55,13 +56,13 @@ class Generator(nn.Module):
         super(Generator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Linear(in_features=noise_dim, out_features=2048),
+            nn.Linear(in_features=noise_dim, out_features=128),
             nn.LeakyReLU(0.2),
 
-            nn.Linear(in_features=2048, out_features=1024),
+            nn.Linear(in_features=128, out_features=512),
             nn.LeakyReLU(0.2),
 
-            nn.Linear(in_features=1024, out_features=latent_dim),
+            nn.Linear(in_features=512, out_features=latent_dim),
 
             nn.Tanh(),
 
@@ -77,20 +78,14 @@ class Discriminator(nn.Module):
         super(Discriminator, self).__init__()
         self.main = nn.Sequential(
 
-            nn.Linear(in_features=latent_dim, out_features=1024),
+            nn.Linear(in_features=latent_dim, out_features=256),
             nn.LeakyReLU(0.2),
             nn.Dropout(0.2),
 
-            nn.Linear(in_features=1024, out_features=4096),
+            nn.Linear(in_features=256, out_features=512),
             nn.LeakyReLU(0.2),
             nn.Dropout(0.2),
-
-            nn.Linear(in_features=4096, out_features=1024),
-            nn.LeakyReLU(0.2),
-            nn.Dropout(0.2),
-
-            nn.Linear(in_features=1024, out_features=1),
-
+            nn.Linear(in_features=512, out_features=1),
             nn.Sigmoid()
 
         )
@@ -229,6 +224,7 @@ def trainingLoop(iters=0):
                 fake_shape_toSave = fake.shape
                 print("data saved")
                 save_data(fake.sign())
+    torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":
@@ -260,6 +256,7 @@ if __name__ == "__main__":
     plt.show()
 
     save_model()
+    print("saved model path: ", savedModel)
     print("MODEL SAVED!")
 
 

@@ -32,15 +32,15 @@
 <br>
 <h4>Beta: 0386</h4>
 
-|                          Input noise 2                          |                           Input noise 4                           |                           Input noise 8                           |
-|:---------------------------------------------------------------:|:-----------------------------------------------------------------:|:-----------------------------------------------------------------:|
-|        ![](outIsingData/s0386/64-s0386[2]/Training.png)         |         ![](outIsingData/s0386/64-s0386[4]/Training.png)          |          ![](outIsingData/s0386/64-s0386[8]/Training.png)         |
-|     ![](outIsingData/s0386/64-s0386[2]/EnergyHistogram.png)     |      ![](outIsingData/s0386/64-s0386[4]/EnergyHistogram.png)      |      ![](outIsingData/s0386/64-s0386[8]/EnergyHistogram.png)      |
-| ![](outIsingData/s0386/64-s0386[2]/MagnetizationHistogram.png)  |  ![](outIsingData/s0386/64-s0386[4]/MagnetizationHistogram.png)   |  ![](outIsingData/s0386/64-s0386[8]/MagnetizationHistogram.png)   |
-|                         Input noise 16                          |                          Input noise 32                           |                          Input noise 64                           |
-|        ![](outIsingData/s0386/64-s0386[16]/Training.png)        |         ![](outIsingData/s0386/64-s0386[32]/Training.png)         |         ![](outIsingData/s0386/64-s0386[64]/Training.png)         |
-|    ![](outIsingData/s0386/64-s0386[16]/EnergyHistogram.png)     |     ![](outIsingData/s0386/64-s0386[32]/EnergyHistogram.png)      |     ![](outIsingData/s0386/64-s0386[64]/EnergyHistogram.png)      |
-| ![](outIsingData/s0386/64-s0386[16]/MagnetizationHistogram.png) |  ![](outIsingData/s0386/64-s0386[32]/MagnetizationHistogram.png)  |  ![](outIsingData/s0386/64-s0386[64]/MagnetizationHistogram.png)  |
+|                          Input noise 2                          |                           Input noise 4                           |                          Input noise 8                          |
+|:---------------------------------------------------------------:|:-----------------------------------------------------------------:|:---------------------------------------------------------------:|
+|        ![](outIsingData/s0386/64-s0386[2]/Training.png)         |         ![](outIsingData/s0386/64-s0386[4]/Training.png)          |        ![](outIsingData/s0386/64-s0386[8]/Training.png)         |
+|     ![](outIsingData/s0386/64-s0386[2]/EnergyHistogram.png)     |      ![](outIsingData/s0386/64-s0386[4]/EnergyHistogram.png)      |     ![](outIsingData/s0386/64-s0386[8]/EnergyHistogram.png)     |
+| ![](outIsingData/s0386/64-s0386[2]/MagnetizationHistogram.png)  |  ![](outIsingData/s0386/64-s0386[4]/MagnetizationHistogram.png)   | ![](outIsingData/s0386/64-s0386[8]/MagnetizationHistogram.png)  |
+|                         Input noise 16                          |                          Input noise 32                           |                         Input noise 64                          |
+|        ![](outIsingData/s0386/64-s0386[16]/Training.png)        |         ![](outIsingData/s0386/64-s0386[32]/Training.png)         |        ![](outIsingData/s0386/64-s0386[64]/Training.png)        |
+|    ![](outIsingData/s0386/64-s0386[16]/EnergyHistogram.png)     |     ![](outIsingData/s0386/64-s0386[32]/EnergyHistogram.png)      |    ![](outIsingData/s0386/64-s0386[64]/EnergyHistogram.png)     |
+| ![](outIsingData/s0386/64-s0386[16]/MagnetizationHistogram.png) |  ![](outIsingData/s0386/64-s0386[32]/MagnetizationHistogram.png)  | ![](outIsingData/s0386/64-s0386[64]/MagnetizationHistogram.png) |
 
 <br>
 <br>

@@ -1,15 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
-# from isingOne_Linear_64 import noise_dim, beta, latent_dim
-from scipy.special import binom
 
 isingSize = 64  # <- size of ising model configuration
-noise_dim = 64  # <- size of input noise
+inputNoise = 64
 beta = "s2079"
 
-fakeDataPath = "outIsingData/" + beta + "/" + str(isingSize) + "-" + beta + "[" + str(noise_dim) + "]/outputData(" + str(
-        isingSize) + "-" + beta + ")TestFileLinear[" + str(
-        noise_dim) + "]Generated.npy"
+fakeDataPath = "outIsingData/" + beta + "/64-" + beta + "[" + str(
+    inputNoise) + "]/outputData(64-" + beta + ")TestFileLinear[" + str(inputNoise) + "]Generated.npy"
 ising_fakeData = np.load(fakeDataPath)  # <- data for the test from the generated batch data
 # ising_data = np.load('outIsingData/outputDataTestFileLinear4.npy')  # <- test data coming from the generator
 
@@ -30,6 +27,10 @@ realMagnetization = realData.sum(axis=1)
 
 fakeEnergy = -(fakeData * np.roll(fakeData, 1, 1)).sum(1).astype('int64')
 fakeMagnetization = fakeData.sum(axis=1)
+
+energy_histogram_filename = "outIsingData/" + beta + "/64-" + beta + "[" + str(inputNoise) + "]/EnergyHistogram.png"
+magnetization_histogram_filename = "outIsingData/" + beta + "/64-" + beta + "[" + str(
+    inputNoise) + "]/MagnetizationHistogram.png"
 
 
 def showSyntheticDataChart():
@@ -61,37 +62,41 @@ def countDuplicates():
     print("duplicates: ", duplicatesCount, "/", dataLength)
 
 
-def energyHistogram(InData):
+def energyHistogram(fakeEnergy, realEnergy):
     plt.title("Energy Histogram")
     ms = np.arange(-isingSize, isingSize + 0.5, 4)
     es = np.arange(-isingSize - 2, isingSize + 2.5, 4)
-    hist, bins = np.histogram(realEnergy, es)
-    rho = (hist / dataLength)
-    plt.xlabel("Histogram for " + str(dataLength) + " data")
-    plt.scatter(ms, rho, marker='+', s=500, c='red', label='theory')
-    plt.hist(InData, bins=np.arange(-isingSize - 0.5, isingSize + 1, 1), density=True)
+    hist_fake, bins_fake = np.histogram(fakeEnergy, es, density=True)
+    hist_real, bins_real = np.histogram(realEnergy, es, density=True)
+
+    plt.xlabel(f"Histogram for {dataLength} data")
+    plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
+    plt.hist(fakeEnergy, bins=bins_fake, density=True, alpha=0.9, label='Generated Data')
     plt.legend()
+    plt.savefig(energy_histogram_filename)
     plt.show()
 
 
-def magnetizationHistogram(InData):
+def magnetizationHistogram(fakeMagnetization, realMagnetization):
     plt.title("Magnetization Histogram")
     ms = np.arange(-isingSize, isingSize + 0.5, 2)
     es = np.arange(-isingSize - 1, isingSize + 1.5, 2)
-    hist, bins = np.histogram(realMagnetization, es)
-    rho = (hist / 100000)
-    plt.xlabel("Histogram for " + str(dataLength) + " data")
-    plt.scatter(ms, rho, marker='+', s=500, c='red', label='theory')
-    plt.hist(InData, bins=np.arange(-isingSize - 0.5, isingSize + 1, 1), density=True)
+    hist_fake, bins_fake = np.histogram(fakeMagnetization, es, density=True)
+    hist_real, bins_real = np.histogram(realMagnetization, es, density=True)
+
+    plt.xlabel(f"Histogram for {dataLength} data")
+    plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
+    plt.hist(fakeMagnetization, bins=bins_fake, density=True, alpha=0.9, label='Generated Data')
     plt.legend()
+    plt.savefig(magnetization_histogram_filename)
     plt.show()
 
 
 def main():
     # showSyntheticDataChart()
     # countDuplicates()
-    energyHistogram(fakeEnergy)
-    magnetizationHistogram(fakeMagnetization)
+    energyHistogram(fakeEnergy, realEnergy)
+    magnetizationHistogram(fakeMagnetization, realMagnetization)
     # count = 0
     # for i in range(len(magnetization)):
     #     if magnetization[i] == 15:

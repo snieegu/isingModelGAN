@@ -2,9 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.special import binom
 
-ising_realData = np.load('ising/s_cfg_x032_b0050.npy')
+ising_realData = np.load('ising/isingData2/s_cfg_x064_b1387.npy')
 ising_realData = np.sign(ising_realData)
-isingSize = 32
+isingSize = 64
 realData = ising_realData.squeeze()
 dataLength = len(realData)
 
@@ -34,11 +34,11 @@ def showSyntheticData():
     plt.show()
 
 
-def countDuplicates():
-    resultList = data.tolist()
-    duplicates = {tuple(x) for x in resultList if resultList.count(x) > 1}
-    duplicatesCount = len(duplicates)
-    print("duplicates: ", duplicatesCount, "/", dataLength)
+# def countDuplicates():
+#     resultList = data.tolist()
+#     duplicates = {tuple(x) for x in resultList if resultList.count(x) > 1}
+#     duplicatesCount = len(duplicates)
+#     print("duplicates: ", duplicatesCount, "/", dataLength)
 
 
 def energyHistogram(InData):
@@ -68,7 +68,7 @@ def magnetizationHistogram(InData):
 
 
 def main():
-    print("Real Energy ", energy)
+    # print("Real Energy ", energy)
     # showSyntheticData()
     # countDuplicates()
     energyHistogram(energy)

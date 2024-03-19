@@ -14,12 +14,12 @@ from tqdm import tqdm
 from isingDataset import IsingDataset
 
 torch.cuda.empty_cache()
-epochs = 400
-batch_size = 12500
+epochs = 200    # 400
+batch_size = 12500   # 12500
 latent_dim = 64  # <- size of ising model configuration
-noise_dim = 64  # <- size of input noise
-lr = 0.0001
-beta = "s0136"
+noise_dim = 1   # <- size of input noise
+lr = 0.0001  # <- 0.0001
+beta = "s0000"
 
 ising_data = np.load("ising/isingData2/s_cfg_x064_b" + beta[1:] + ".npy")  # <- input ising model configuration
 ising_data = ising_data.astype(np.float32)
@@ -259,4 +259,5 @@ if __name__ == "__main__":
     print("saved model path: ", savedModel)
     print("MODEL SAVED!")
 
+    exit(1)
 

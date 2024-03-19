@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 isingSize = 64  # <- size of ising model configuration
-inputNoise = 64
-beta = "s2079"
+inputNoise = 64  # <- size of input noise
+beta = "s0018"
 
 fakeDataPath = "outIsingData/" + beta + "/64-" + beta + "[" + str(
     inputNoise) + "]/outputData(64-" + beta + ")TestFileLinear[" + str(inputNoise) + "]Generated.npy"
@@ -92,6 +92,17 @@ def magnetizationHistogram(fakeMagnetization, realMagnetization):
     plt.show()
 
 
+def print_statistics(magnetization, energy):
+    print("Magnetization mean: ", np.average(magnetization))
+    print("Energy mean:", energy.mean())
+    print("Magnetization variance: ", np.var(magnetization))
+    print("Energy variance:", np.var(energy))
+    print("Magnetization max: ", np.max(magnetization))
+    print("Magnetization min: ", np.min(magnetization))
+    print("Energy max:", np.max(energy))
+    print("Energy min:", np.min(energy))
+
+
 def main():
     # showSyntheticDataChart()
     # countDuplicates()
@@ -103,6 +114,13 @@ def main():
     #         count = count + 1
     # print(count)
 
+    print("\n--- Real Data Statistics ---")
+    print_statistics(realMagnetization, realEnergy)
+
+    print("\n--- Fake Data Statistics ---")
+    print_statistics(fakeMagnetization, fakeEnergy)
+
 
 if __name__ == "__main__":
     main()
+    exit(1)

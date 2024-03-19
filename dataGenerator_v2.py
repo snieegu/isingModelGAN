@@ -3,7 +3,7 @@ import torch
 import isingOne_Linear_64  # <- importing the appropriate model file
 
 noise_dim = isingOne_Linear_64.noise_dim  # <- size of input noise
-volume = 40000  # <- expected amount of data
+volume = 20000  # <- expected amount of data
 beta = isingOne_Linear_64.beta
 savedDataPath = "outIsingData/" + beta + "/64-" + beta + "[" + str(noise_dim) + "]/outputData(64-" + beta + ")TestFileLinear[" + str(noise_dim) + "]Generated.npy"  # <-path to save the data
 savedModelPath = isingOne_Linear_64.savedModel
@@ -21,3 +21,5 @@ np.save(savedDataPath, _outputData)
 print("saved model path: ", savedModelPath)
 print("saved data path: ", savedDataPath)
 # print("Job Done!")
+
+exit(1)

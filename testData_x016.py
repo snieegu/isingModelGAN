@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-isingSize = 64  # <- size of ising model configuration
-inputNoise = 8  # <- size of input noise
-beta = "s0018"
+isingSize = 16  # <- size of ising model configuration
+inputNoise = 16  # <- size of input noise
+beta = "s0100"
 
-fakeDataPath = "outIsingData/" + beta + "_128/64-" + beta + "[" + str(inputNoise) + "]_128/outputData(64-" + beta + ")TestFileLinear[" + str(inputNoise) + "]Generated.npy"  # <-path to save the data
+fakeDataPath = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(inputNoise) + "]/outputData(16-" + beta + ")TestFileLinear[" + str(inputNoise) + "]Generated.npy"  # <-path to save the data
 ising_fakeData = np.load(fakeDataPath)  # <- data for the test from the generated batch data
 # ising_data = np.load('outIsingData/outputDataTestFileLinear4.npy')  # <- test data coming from the generator
 
-ising_realData = np.load("ising/isingData2/s_cfg_x064_b" + beta[1:] + ".npy")
+ising_realData = np.load("ising/s_cfg_x016_b" + beta[1:] + ".npy")
 ising_realData = np.sign(ising_realData)
 
 print("\nsaved data path: ", fakeDataPath)
@@ -27,9 +27,10 @@ realMagnetization = realData.sum(axis=1)
 fakeEnergy = -(fakeData * np.roll(fakeData, 1, 1)).sum(1).astype('int64')
 fakeMagnetization = fakeData.sum(axis=1)
 
-energy_histogram_filename = "outIsingData/" + beta + "_128/64-" + beta + "[" + str(inputNoise) + "]_128/EnergyHistogram.png"
-magnetization_histogram_filename = "outIsingData/" + beta + "_128/64-" + beta + "[" + str(
-    inputNoise) + "]_128/MagnetizationHistogram.png"
+energy_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
+    inputNoise) + "]/EnergyHistogram.png"
+magnetization_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
+    inputNoise) + "]/MagnetizationHistogram.png"
 
 
 def showSyntheticDataChart():
@@ -37,7 +38,6 @@ def showSyntheticDataChart():
     plt.title("Fake data Magnetization")
     plt.plot(fakeMagnetization, label="Magnetization")
 
-    
     plt.xlabel("")
     plt.ylabel("Magnetization")
     plt.legend()

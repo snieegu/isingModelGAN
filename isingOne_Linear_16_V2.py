@@ -17,7 +17,7 @@ torch.cuda.empty_cache()
 epochs = 200    # 400
 batch_size = 6250   # 12500
 latent_dim = 16  # <- size of ising model configuration
-noise_dim = 1   # <- size of input noise
+noise_dim = 16   # <- size of input noise
 lr = 0.0001  # <- 0.0001
 beta = "s0100"
 

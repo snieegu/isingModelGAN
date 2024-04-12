@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 isingSize = 16  # <- size of ising model configuration
-inputNoise = 16  # <- size of input noise
+inputNoise = 32  # <- size of input noise
 beta = "s0100"
 
 fakeDataPath = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(inputNoise) + "]/outputData(16-" + beta + ")TestFileLinear[" + str(inputNoise) + "]Generated.npy"  # <-path to save the data
@@ -32,6 +32,8 @@ energy_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + 
 magnetization_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
     inputNoise) + "]/MagnetizationHistogram.png"
 
+def calculate_sem(data):
+    return np.std(data) / np.sqrt(len(data))
 
 def showSyntheticDataChart():
     plt.figure(figsize=(7, 5))
@@ -70,8 +72,12 @@ def energyHistogram(fakeEnergy, realEnergy):
     hist_fake, bins_fake = np.histogram(fakeEnergy, es, density=True)
     hist_real, bins_real = np.histogram(realEnergy, es, density=True)
 
+    sem_fake = calculate_sem(fakeEnergy)
+    sem_real = calculate_sem(realEnergy)
+
     plt.xlabel(f"Histogram for {dataLength} data")
-    plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
+    plt.errorbar(ms, hist_real, yerr=sem_real, fmt='+', c='red', label='theory')
+    # plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
     plt.hist(fakeEnergy, bins=bins_fake, density=True, alpha=0.9, label='Generated Data')
     plt.legend()
     plt.savefig(energy_histogram_filename)
@@ -85,8 +91,12 @@ def magnetizationHistogram(fakeMagnetization, realMagnetization):
     hist_fake, bins_fake = np.histogram(fakeMagnetization, es, density=True)
     hist_real, bins_real = np.histogram(realMagnetization, es, density=True)
 
+    sem_fake = calculate_sem(fakeMagnetization)
+    sem_real = calculate_sem(realMagnetization)
+
     plt.xlabel(f"Histogram for {dataLength} data")
-    plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
+    plt.errorbar(ms, hist_real, yerr=sem_real, fmt='+', c='red', label='theory')
+    # plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
     plt.hist(fakeMagnetization, bins=bins_fake, density=True, alpha=0.9, label='Generated Data')
     plt.legend()
     plt.savefig(magnetization_histogram_filename)

@@ -10,14 +10,13 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
 from torchsummary import summary
 from tqdm import tqdm
-
 from isingDataset import IsingDataset
 
 torch.cuda.empty_cache()
-epochs = 200    # 400
+epochs = 400    # 400
 batch_size = 6250   # 12500
 latent_dim = 16  # <- size of ising model configuration
-noise_dim = 16   # <- size of input noise
+noise_dim = 1   # <- size of input noise
 lr = 0.0001  # <- 0.0001
 beta = "s0100"
 
@@ -253,7 +252,9 @@ if __name__ == "__main__":
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
     plt.legend()
+    plt.savefig("outIsingData/" + beta + "_x016/16-" + beta + "[" + str(noise_dim) + "]/Training.png")
     plt.show()
+
 
     save_model()
     print("saved model path: ", savedModel)

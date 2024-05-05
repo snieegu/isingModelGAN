@@ -5,7 +5,8 @@ isingSize = 16  # <- size of ising model configuration
 inputNoise = 32  # <- size of input noise
 beta = "s0100"
 
-fakeDataPath = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(inputNoise) + "]/outputData(16-" + beta + ")TestFileLinear[" + str(inputNoise) + "]Generated.npy"  # <-path to save the data
+fakeDataPath = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
+    inputNoise) + "]/outputData(16-" + beta + ")TestFileLinear[" + str(inputNoise) + "].npy"  # <-path to save the data
 ising_fakeData = np.load(fakeDataPath)  # <- data for the test from the generated batch data
 # ising_data = np.load('outIsingData/outputDataTestFileLinear4.npy')  # <- test data coming from the generator
 
@@ -28,12 +29,29 @@ fakeEnergy = -(fakeData * np.roll(fakeData, 1, 1)).sum(1).astype('int64')
 fakeMagnetization = fakeData.sum(axis=1)
 
 energy_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
-    inputNoise) + "]/EnergyHistogram.png"
+    inputNoise) + "]/EnergyHistogramWithError.png"
 magnetization_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
-    inputNoise) + "]/MagnetizationHistogram.png"
+    inputNoise) + "]/MagnetizationHistogramWithError.png"
 
-def calculate_sem(data):
-    return np.std(data) / np.sqrt(len(data))
+
+def calculate_std_error(hist_counts):
+    # Obliczenie błędu standardowego przy użyciu statystyki poissonowskiej
+    return np.sqrt(hist_counts)
+
+
+def histogram_with_errors(data, edges, density, label):
+    hist_counts, _ = np.histogram(data, edges, density=density)
+    bin_centers = 0.5 * (edges[:-1] + edges[1:])
+    std_errors = calculate_std_error(hist_counts)
+
+    if density:
+        # Normalize std error if histogram is density
+        area = np.diff(edges).sum()
+        std_errors = std_errors / (hist_counts.sum() * area)
+
+    # Użycie funkcji errorbar do narysowania histogramu z niepewnościami
+    plt.errorbar(bin_centers, hist_counts, yerr=std_errors, fmt='o', label=label)
+
 
 def showSyntheticDataChart():
     plt.figure(figsize=(7, 5))
@@ -66,38 +84,26 @@ def countDuplicates():
 
 
 def energyHistogram(fakeEnergy, realEnergy):
-    plt.title("Energy Histogram")
-    ms = np.arange(-isingSize, isingSize + 0.5, 4)
+    plt.figure(figsize=(8, 6))
+    plt.title(f"Energy Histogram for {dataLength} data")
     es = np.arange(-isingSize - 2, isingSize + 2.5, 4)
-    hist_fake, bins_fake = np.histogram(fakeEnergy, es, density=True)
-    hist_real, bins_real = np.histogram(realEnergy, es, density=True)
-
-    sem_fake = calculate_sem(fakeEnergy)
-    sem_real = calculate_sem(realEnergy)
-
-    plt.xlabel(f"Histogram for {dataLength} data")
-    plt.errorbar(ms, hist_real, yerr=sem_real, fmt='+', c='red', label='theory')
-    # plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
-    plt.hist(fakeEnergy, bins=bins_fake, density=True, alpha=0.9, label='Generated Data')
+    histogram_with_errors(fakeEnergy, es, density=True, label='Generated Data')
+    histogram_with_errors(realEnergy, es, density=True, label='Theory')
+    plt.xlabel("Energy")
+    plt.ylabel("Probability Density")
     plt.legend()
     plt.savefig(energy_histogram_filename)
     plt.show()
 
 
 def magnetizationHistogram(fakeMagnetization, realMagnetization):
-    plt.title("Magnetization Histogram")
-    ms = np.arange(-isingSize, isingSize + 0.5, 2)
+    plt.figure(figsize=(8, 6))
+    plt.title(f"Magnetization Histogram for {dataLength} data")
     es = np.arange(-isingSize - 1, isingSize + 1.5, 2)
-    hist_fake, bins_fake = np.histogram(fakeMagnetization, es, density=True)
-    hist_real, bins_real = np.histogram(realMagnetization, es, density=True)
-
-    sem_fake = calculate_sem(fakeMagnetization)
-    sem_real = calculate_sem(realMagnetization)
-
-    plt.xlabel(f"Histogram for {dataLength} data")
-    plt.errorbar(ms, hist_real, yerr=sem_real, fmt='+', c='red', label='theory')
-    # plt.scatter(ms, hist_real, marker='+', s=500, c='red', label='theory')
-    plt.hist(fakeMagnetization, bins=bins_fake, density=True, alpha=0.9, label='Generated Data')
+    histogram_with_errors(fakeMagnetization, es, density=True, label='Generated Data')
+    histogram_with_errors(realMagnetization, es, density=True, label='Theory')
+    plt.xlabel("Magnetization")
+    plt.ylabel("Probability Density")
     plt.legend()
     plt.savefig(magnetization_histogram_filename)
     plt.show()
@@ -115,15 +121,8 @@ def print_statistics(magnetization, energy):
 
 
 def main():
-    # showSyntheticDataChart()
-    # countDuplicates()
     energyHistogram(fakeEnergy, realEnergy)
     magnetizationHistogram(fakeMagnetization, realMagnetization)
-    # count = 0
-    # for i in range(len(magnetization)):
-    #     if magnetization[i] == 15:
-    #         count = count + 1
-    # print(count)
 
     print("\n--- Real Data Statistics ---")
     print_statistics(realMagnetization, realEnergy)

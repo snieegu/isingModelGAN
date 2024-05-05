@@ -6,7 +6,7 @@ inputNoise = 32  # <- size of input noise
 beta = "s0100"
 
 fakeDataPath = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
-    inputNoise) + "]/outputData(16-" + beta + ")TestFileLinear[" + str(inputNoise) + "].npy"  # <-path to save the data
+    inputNoise) + "]/outputData(16-" + beta + ")TestFileLinear[" + str(inputNoise) + "]Generated_200epochs.npy"  # <-path to save the data
 ising_fakeData = np.load(fakeDataPath)  # <- data for the test from the generated batch data
 # ising_data = np.load('outIsingData/outputDataTestFileLinear4.npy')  # <- test data coming from the generator
 
@@ -29,9 +29,9 @@ fakeEnergy = -(fakeData * np.roll(fakeData, 1, 1)).sum(1).astype('int64')
 fakeMagnetization = fakeData.sum(axis=1)
 
 energy_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
-    inputNoise) + "]/EnergyHistogramWithError.png"
+    inputNoise) + "]/EnergyHistogramWithError_200epochs.png"
 magnetization_histogram_filename = "outIsingData/" + beta + "_x016/16-" + beta + "[" + str(
-    inputNoise) + "]/MagnetizationHistogramWithError.png"
+    inputNoise) + "]/MagnetizationHistogramWithError_200epochs.png"
 
 
 def calculate_std_error(hist_counts):

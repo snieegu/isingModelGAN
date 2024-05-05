@@ -13,10 +13,10 @@ from tqdm import tqdm
 from isingDataset import IsingDataset
 
 torch.cuda.empty_cache()
-epochs = 400    # 400
+epochs = 200    # 400
 batch_size = 6250   # 12500
 latent_dim = 16  # <- size of ising model configuration
-noise_dim = 1   # <- size of input noise
+noise_dim = 32   # <- size of input noise
 lr = 0.0001  # <- 0.0001
 beta = "s0100"
 
@@ -32,10 +32,10 @@ print("ising data tensor shape", ising_data_ready.shape)
 print("sample ising data tensor shape", ising_data_ready[0].shape)
 
 savedModel = "savedModels/isingOne(" + str(latent_dim) + "-" + beta + ")Linear[" + str(
-    noise_dim) + "].pth"  # <- path to save model
+    noise_dim) + "]_200epochs.pth"  # <- path to save model
 savedDataPath = "outIsingData/" + beta + "_x016/" + str(latent_dim) + "-" + beta + "[" + str(
     noise_dim) + "]/outputData(" + str(
-    latent_dim) + "-" + beta + ")TestFileLinear[" + str(noise_dim) + "].npy"  # <-path to save the data
+    latent_dim) + "-" + beta + ")TestFileLinear[" + str(noise_dim) + "]_200epochs.npy"  # <-path to save the data
 
 outfile = TemporaryFile()
 transformation = transforms.Compose([transforms.ToTensor(), transforms.Normalize(mean=0.5, std=0.5)])
@@ -252,7 +252,7 @@ if __name__ == "__main__":
     plt.xlabel("Iterations")
     plt.ylabel("Loss")
     plt.legend()
-    plt.savefig("outIsingData/" + beta + "_x016/16-" + beta + "[" + str(noise_dim) + "]/Training.png")
+    plt.savefig("outIsingData/" + beta + "_x016/16-" + beta + "[" + str(noise_dim) + "]/Training_200epochs.png")
     plt.show()
 
 
